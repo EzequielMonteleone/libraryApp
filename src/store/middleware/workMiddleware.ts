@@ -1,17 +1,17 @@
 import {AppMiddleware, AsyncThunkActionTypes} from '../../interfaces/store';
 
-export const resultBooksSearchMiddleware: AppMiddleware =
+export const workMiddleware: AppMiddleware =
   _store => next => (action: any) => {
-    if (!action.type.match('books/searchBook/*')) {
+    if (!action.type.match('work/getWork/*')) {
       return next(action);
     }
 
     switch (action.type) {
-      case AsyncThunkActionTypes.SEARCHBOOK_PENDING:
+      case AsyncThunkActionTypes.GETWORK_PENDING:
         return next(action);
-      case AsyncThunkActionTypes.SEARCHBOOK_FULFILLED:
+      case AsyncThunkActionTypes.GETWORK_FULFILLED:
         return next(action);
-      case AsyncThunkActionTypes.SEARCHBOOK_REJECTED:
+      case AsyncThunkActionTypes.GETWORK_REJECTED:
         return next(action);
       default:
         return next(action);

@@ -12,7 +12,7 @@ const initialState: BooksState = {
     q: '',
     docs: [],
   },
-  currentPage: 0,
+  currentPage: 1,
   isLoadMore: false,
   isRefreshing: false,
   isLoading: false,
@@ -25,7 +25,7 @@ export const booksSlice = createSlice({
   name: 'books',
   initialState,
   reducers: {
-    /*changePage: (state, action) => {
+    changePage: (state, action) => {
       state.currentPage = action.payload;
       state.isLoadMore = true;
     },
@@ -33,20 +33,17 @@ export const booksSlice = createSlice({
       if (state.currentPage !== 1) {
         state.isRefreshing = true;
         state.currentPage = 1;
-        state.characters.results = [];
+        state.searchResultBooks.docs = [];
       }
     },
-    selectCharacter: (state, action) => {
-      state.characterSelected = action.payload;
-    },*/
   },
   extraReducers: builder => {
     builder.addCase(searchBook.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.searchResultBooks.docs = [
-        ...state.searchResultBooks.docs,
-        ...action.payload.data.docs,
-      ];
+      state.searchResultBooks = {
+        ...action.payload.data,
+        docs: [...state.searchResultBooks.docs, ...action.payload.data.docs],
+      };
       state.isLoading = false;
       state.isRefreshing = false;
       state.isLoadMore = false;
@@ -71,5 +68,5 @@ export const searchBook = createAsyncThunk(
     return response;
   },
 );
-//export const {changePage, restart, selectCharacter} = booksSlice.actions;
+export const {changePage, restart} = booksSlice.actions;
 export const booksReducer = booksSlice.reducer;

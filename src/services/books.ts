@@ -3,8 +3,6 @@ import {AxiosService} from './apiService';
 import {BookRequest} from '../interfaces/book';
 import {SearchResultBooks} from '../types/book';
 
-//type NotificationResponse = Array<Notification>;
-
 class BooksService {
   private static bookService: BooksService;
   private baseURL: string | undefined = '';
@@ -25,7 +23,7 @@ class BooksService {
   public searchBooks = async (
     params: BookRequest,
   ): Promise<AxiosResponse<SearchResultBooks>> => {
-    const url = `${this.baseURL}search.json`;
+    const url = `${this.baseURL}/search.json`;
     const config: AxiosRequestConfig = {
       url: url,
       params: params,

@@ -1,17 +1,12 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {
-  persistStore,
-  persistReducer,
-  FLUSH,
-  REHYDRATE,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
-} from 'redux-persist';
+import {persistStore, persistReducer} from 'redux-persist';
 import {combineReducers, configureStore} from '@reduxjs/toolkit';
 import {booksReducer, booksSlice} from './slice/resultBooksSearchSlice';
 import {resultBooksSearchMiddleware} from './middleware/resultBooksSearchMiddleware';
+import {authorMiddleware} from './middleware/authorMiddleware';
+import {authorReducer, authorSlice} from './slice/authorSlice';
+import {workMiddleware} from './middleware/workMiddleware';
+import {workReducer, workSlice} from './slice/workSlice';
 
 const persistConfig = {
   key: 'root',
@@ -21,6 +16,8 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   [booksSlice.name]: booksReducer,
+  [authorSlice.name]: authorReducer,
+  [workSlice.name]: workReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -30,10 +27,9 @@ export const setupStore = () =>
     reducer: persistedReducer,
     middleware: getDefaultMiddleware =>
       getDefaultMiddleware({
-        serializableCheck: {
-          ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-        },
-      }).concat(resultBooksSearchMiddleware),
+        immutableCheck: false,
+        serializableCheck: false,
+      }).concat(resultBooksSearchMiddleware, authorMiddleware, workMiddleware),
   });
 
 export type RootState = ReturnType<typeof rootReducer>;
