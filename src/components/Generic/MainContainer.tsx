@@ -8,7 +8,13 @@ interface MainContainerProps {
 export const MainContainer: FunctionComponent<
   PropsWithChildren<MainContainerProps>
 > = props => {
-  return <SafeAreaView style={styles.container}>{props.children}</SafeAreaView>;
+  return (
+    <SafeAreaView style={[styles.container, props.style]}>
+      {props.children}
+    </SafeAreaView>
+  );
 };
 
-const styles = StyleSheet.create({container: {flex: 1}});
+const styles = StyleSheet.create({
+  container: {flex: 1},
+});

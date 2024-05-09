@@ -29,12 +29,8 @@ export const booksSlice = createSlice({
       state.currentPage = action.payload;
       state.isLoadMore = true;
     },
-    restart: (state, _action) => {
-      if (state.currentPage !== 1) {
-        state.isRefreshing = true;
-        state.currentPage = 1;
-        state.searchResultBooks.docs = [];
-      }
+    reset: (state, _action) => {
+      state.searchResultBooks.docs = [];
     },
   },
   extraReducers: builder => {
@@ -68,5 +64,5 @@ export const searchBook = createAsyncThunk(
     return response;
   },
 );
-export const {changePage, restart} = booksSlice.actions;
+export const {changePage, reset} = booksSlice.actions;
 export const booksReducer = booksSlice.reducer;

@@ -7,17 +7,19 @@ import {authorMiddleware} from './middleware/authorMiddleware';
 import {authorReducer, authorSlice} from './slice/authorSlice';
 import {workMiddleware} from './middleware/workMiddleware';
 import {workReducer, workSlice} from './slice/workSlice';
+import {settingsReducer, settingsSlice} from './slice/settingsSlice';
 
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: ['books'],
+  whitelist: ['settings'],
 };
 
 const rootReducer = combineReducers({
   [booksSlice.name]: booksReducer,
   [authorSlice.name]: authorReducer,
   [workSlice.name]: workReducer,
+  [settingsSlice.name]: settingsReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

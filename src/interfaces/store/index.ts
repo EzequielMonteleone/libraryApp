@@ -23,10 +23,16 @@ export interface WorkState extends BaseState {
   work: Work;
 }
 
+export interface SettingState {
+  searchBy: string;
+  minTriggerChange: number;
+}
+
 interface AppReducers {
   books: BooksState;
   author: AuthorState;
   work: WorkState;
+  settings: SettingState;
 }
 
 export type AppMiddleware = Middleware<{}, AppReducers>;

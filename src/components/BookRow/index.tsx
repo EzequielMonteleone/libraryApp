@@ -14,7 +14,10 @@ const BookRow: FC<BookRowProps> = ({book, onPress}) => {
   }, [book, onPress]);
 
   return (
-    <Pressable style={styles.container} onPress={handleOnPress}>
+    <Pressable
+      testID="characterRow_btn"
+      style={styles.container}
+      onPress={handleOnPress}>
       <View style={styles.column}>
         <Text style={styles.title}>Título</Text>
         <Text style={styles.value}>{book.title}</Text>

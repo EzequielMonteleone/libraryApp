@@ -4,6 +4,7 @@ import {Stack} from './config';
 import Routes from './routes';
 import SearchBooks from '../screens/SearchBooks';
 import DetailBook from '../screens/DetailBook';
+import Settings from '../screens/Settings';
 
 const AppNavigation = () => (
   <NavigationContainer>
@@ -16,6 +17,11 @@ const AppNavigation = () => (
       <Stack.Screen
         name={Routes.DETAIL_BOOK_SCREEN}
         component={DetailBook}
+        options={{title: ''}}
+      />
+      <Stack.Screen
+        name={Routes.SETTINGS_SCREEN}
+        component={Settings}
         options={{title: ''}}
       />
     </Stack.Navigator>

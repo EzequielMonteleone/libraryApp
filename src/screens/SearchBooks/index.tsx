@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import {ActivityIndicator, FlatList} from 'react-native';
+import React, {FC, useEffect, useState} from 'react';
+import {ActivityIndicator, FlatList, Pressable, Text, View} from 'react-native';
 import {useAppDispatch, useAppSelector} from '../../hooks/useRedux';
 import {MainContainer} from '../../components/Generic/MainContainer';
 import {LoadingIndicator} from '../../components/Generic/LoadingIndicator';
@@ -12,54 +12,80 @@ import SearchBar from '../../components/Generic/SearchBar';
 import styles from './styles';
 import {
   changePage,
+  reset,
   searchBook,
-  restart,
 } from '../../store/slice/resultBooksSearchSlice';
+import {ScreenProps} from '../../interfaces/navigation';
+import {SearchBy} from '../../types/settings';
 
-const limit = 30;
+const limit = 15;
 
 const renderItem = (book: Book, onSelect: (book: Book) => void) => (
   <BookRow book={book} onPress={onSelect} />
 );
 
-const SearchBooks = () => {
+const SearchBooks: FC<ScreenProps<'SearchBooksScreen'>> = () => {
   const dispatch = useAppDispatch();
   const {navigate} = useNavigation<NavigationProp<NativeStackRoutes>>();
   const {isLoading, isRefreshing, isLoadMore, searchResultBooks, currentPage} =
     useAppSelector(state => state.books);
-
-  useEffect(() => {
-    if (searchResultBooks.q.length > 0) {
-      dispatch(searchBook({q: searchResultBooks.q, page: currentPage, limit}));
-    }
-  }, [currentPage, dispatch, searchResultBooks.q]);
+  const settingsSelector = useAppSelector(state => state.settings);
+  const [searchValue, setSearchValue] = useState('');
 
   const handleOnEndReached = () => {
     if (currentPage * limit < searchResultBooks.numFound) {
-      dispatch(changePage(currentPage + 1));
+      var newPage = currentPage + 1;
+      dispatch(searchBook({q: searchResultBooks.q, page: newPage, limit}));
+      dispatch(changePage(newPage));
     }
   };
 
-  const handleOnRefresh = () => dispatch(restart({}));
+  const handleOnRefresh = () =>
+    dispatch(searchBook({q: searchResultBooks.q, page: currentPage, limit}));
 
-  const handleOnPressRow = (book: Book) => {
-    console.log(book);
-    navigate('DetailBookScreen');
-  };
+  const handleOnPressRow = (book: Book) => navigate('DetailBookScreen', {book});
 
   const handleOnChangeText = (text: string) =>
     dispatch(searchBook({q: text, page: currentPage, limit}));
+
+  useEffect(() => {
+    console.log(settingsSelector.searchBy);
+  }, [settingsSelector.searchBy]);
 
   return isLoading && !isLoadMore ? (
     <LoadingIndicator />
   ) : (
     <MainContainer>
-      <SearchBar
-        defaultValue={searchResultBooks.q}
-        style={styles.searchBar}
-        minTriggerChange={3}
-        onChange={handleOnChangeText}
-      />
+      <View>
+        <View style={styles.config}>
+          {settingsSelector.searchBy === SearchBy.BUTTON ? (
+            <Pressable
+              onPress={() => {
+                dispatch(reset({}));
+                dispatch(
+                  searchBook({q: searchValue, page: currentPage, limit}),
+                );
+              }}>
+              <Text>Buscar</Text>
+            </Pressable>
+          ) : (
+            <View />
+          )}
+          <Pressable onPress={() => navigate('SettingsScreen')}>
+            <Text>Config</Text>
+          </Pressable>
+        </View>
+        <SearchBar
+          defaultValue={searchResultBooks.q}
+          style={styles.searchBar}
+          minTriggerChange={settingsSelector.minTriggerChange}
+          onChange={
+            settingsSelector.searchBy === SearchBy.INPUT
+              ? handleOnChangeText
+              : setSearchValue
+          }
+        />
+      </View>
       <FlatList<Book>
         refreshing={isRefreshing}
         onRefresh={handleOnRefresh}
