@@ -15,7 +15,7 @@ const BookRow: FC<BookRowProps> = ({book, onPress}) => {
 
   return (
     <Pressable
-      testID="characterRow_btn"
+      testID="BookRow_btn"
       style={styles.container}
       onPress={handleOnPress}>
       <View style={styles.column}>
