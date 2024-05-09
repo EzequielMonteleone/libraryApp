@@ -3,8 +3,7 @@ import {StyleSheet} from 'react-native';
 const styles = StyleSheet.create({
   container: {margin: 16},
   row: {marginVertical: 8, flexDirection: 'row'},
-  item: {flexDirection: 'row', flex: 0.5, alignItems: 'center'},
-  titleRadioButton: {fontSize: 10, marginRight: 4},
+  item: {flex: 0.5},
   input: {borderWidth: 1, padding: 4, borderRadius: 8, marginVertical: 8},
   changeButton: {
     borderWidth: 1,

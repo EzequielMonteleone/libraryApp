@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useState} from 'react';
 import {ActivityIndicator, FlatList, Pressable, Text, View} from 'react-native';
 import {useAppDispatch, useAppSelector} from '../../hooks/useRedux';
 import {MainContainer} from '../../components/Generic/MainContainer';
@@ -47,10 +47,6 @@ const SearchBooks: FC<ScreenProps<'SearchBooksScreen'>> = () => {
 
   const handleOnChangeText = (text: string) =>
     dispatch(searchBook({q: text, page: currentPage, limit}));
-
-  useEffect(() => {
-    console.log(settingsSelector.searchBy);
-  }, [settingsSelector.searchBy]);
 
   return isLoading && !isLoadMore ? (
     <LoadingIndicator />

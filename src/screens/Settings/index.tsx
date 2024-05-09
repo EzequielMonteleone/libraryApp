@@ -30,18 +30,18 @@ const Settings: FC<ScreenProps<'SettingsScreen'>> = () => {
     <MainContainer style={styles.container}>
       <Text>Buscar por:</Text>
       <View style={styles.row}>
-        <Pressable
-          style={styles.item}
-          onPress={() => onPressRadioButton(SearchBy.INPUT)}>
-          <Text style={styles.titleRadioButton}>Texto</Text>
-          <RadioButton selected={searchBy === SearchBy.INPUT} />
-        </Pressable>
-        <Pressable
-          style={styles.item}
-          onPress={() => onPressRadioButton(SearchBy.BUTTON)}>
-          <Text style={styles.titleRadioButton}>Botón</Text>
-          <RadioButton selected={searchBy === SearchBy.BUTTON} />
-        </Pressable>
+        <RadioButton
+          customStyles={styles.item}
+          text="Texto"
+          onPress={() => onPressRadioButton(SearchBy.INPUT)}
+          selected={searchBy === SearchBy.INPUT}
+        />
+        <RadioButton
+          customStyles={styles.item}
+          text="Botón"
+          onPress={() => onPressRadioButton(SearchBy.BUTTON)}
+          selected={searchBy === SearchBy.BUTTON}
+        />
       </View>
       {searchBy === SearchBy.INPUT && (
         <View style={styles.minChangeContainer}>

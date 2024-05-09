@@ -5,11 +5,6 @@ const styles = StyleSheet.create({
   bookImage: {
     height: 300,
   },
-  title: {fontSize: 12, fontWeight: 'bold'},
-  value: {fontSize: 10, color: 'gray'},
-  row: {
-    marginVertical: 4,
-  },
 });
 
 export default styles;

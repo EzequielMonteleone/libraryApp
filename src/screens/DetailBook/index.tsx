@@ -1,5 +1,5 @@
 import React, {FC, useEffect} from 'react';
-import {Text, Image, View, ScrollView} from 'react-native';
+import {Image, ScrollView} from 'react-native';
 import {useAppDispatch, useAppSelector} from '../../hooks/useRedux';
 import {ScreenProps} from '../../interfaces/navigation';
 import {getWork} from '../../store/slice/workSlice';
@@ -7,6 +7,7 @@ import {getAuthor} from '../../store/slice/authorSlice';
 import {LoadingIndicator} from '../../components/Generic/LoadingIndicator';
 import {MainContainer} from '../../components/Generic/MainContainer';
 import styles from './styles';
+import DetailSection from '../../components/DetailBook/DetailSection';
 
 const getUrlImage = (isbnCode: string): string => {
   return 'https://covers.openlibrary.org/b/isbn/{code}-M.jpg'.replace(
@@ -40,30 +41,17 @@ const DetailBook: FC<ScreenProps<'DetailBookScreen'>> = props => {
           resizeMode="contain"
           style={styles.bookImage}
         />
-        <View style={styles.row}>
-          <Text style={styles.title}>Titulo: </Text>
-          <Text style={styles.value}>{workSelector.work.title}</Text>
-        </View>
-        <View style={styles.row}>
-          <Text style={styles.title}>Primer año de publicación: </Text>
-          <Text style={styles.value}>
-            {workSelector.work.first_publish_date}
-          </Text>
-        </View>
-        <View style={styles.row}>
-          <Text style={styles.title}>Descripción: </Text>
-          <Text style={styles.value}>
-            {workSelector.work.description?.value}
-          </Text>
-        </View>
-        <View style={styles.row}>
-          <Text style={styles.title}>Autor: </Text>
-          <Text style={styles.value}>{authorSelector.author.name}</Text>
-        </View>
-        <View style={styles.row}>
-          <Text style={styles.title}>Bio: </Text>
-          <Text style={styles.value}>{authorSelector.author.bio}</Text>
-        </View>
+        <DetailSection title="Titulo: " detail={workSelector.work.title} />
+        <DetailSection
+          title="Primer año de publicación: "
+          detail={workSelector.work.first_publish_date}
+        />
+        <DetailSection
+          title="Descripción: "
+          detail={workSelector.work.description?.value}
+        />
+        <DetailSection title="Autor: " detail={authorSelector.author.name} />
+        <DetailSection title="Bio: " detail={authorSelector.author.bio} />
       </ScrollView>
     </MainContainer>
   );

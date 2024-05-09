@@ -16,6 +16,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     backgroundColor: 'red',
   },
+  item: {flexDirection: 'row', alignItems: 'center'},
+  titleRadioButton: {fontSize: 10, marginRight: 4},
 });
 
 export default styles;
