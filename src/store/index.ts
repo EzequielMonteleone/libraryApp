@@ -12,7 +12,7 @@ import {settingsReducer, settingsSlice} from './slice/settingsSlice';
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: ['settings'],
+  whitelist: ['settings', 'books'],
 };
 
 const rootReducer = combineReducers({

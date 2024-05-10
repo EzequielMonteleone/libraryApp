@@ -45,8 +45,12 @@ const SearchBooks: FC<ScreenProps<'SearchBooksScreen'>> = () => {
 
   const handleOnPressRow = (book: Book) => navigate('DetailBookScreen', {book});
 
-  const handleOnChangeText = (text: string) =>
-    dispatch(searchBook({q: text, page: currentPage, limit}));
+  const searchBookDispatch = (text?: string) => {
+    dispatch(reset({}));
+    dispatch(
+      searchBook({q: text ? text : searchValue, page: currentPage, limit}),
+    );
+  };
 
   return isLoading && !isLoadMore ? (
     <LoadingIndicator />
@@ -55,13 +59,7 @@ const SearchBooks: FC<ScreenProps<'SearchBooksScreen'>> = () => {
       <View>
         <View style={styles.config}>
           {settingsSelector.searchBy === SearchBy.BUTTON ? (
-            <Pressable
-              onPress={() => {
-                dispatch(reset({}));
-                dispatch(
-                  searchBook({q: searchValue, page: currentPage, limit}),
-                );
-              }}>
+            <Pressable onPress={() => searchBookDispatch()}>
               <Text>Buscar</Text>
             </Pressable>
           ) : (
@@ -77,7 +75,7 @@ const SearchBooks: FC<ScreenProps<'SearchBooksScreen'>> = () => {
           minTriggerChange={settingsSelector.minTriggerChange}
           onChange={
             settingsSelector.searchBy === SearchBy.INPUT
-              ? handleOnChangeText
+              ? searchBookDispatch
               : setSearchValue
           }
         />
