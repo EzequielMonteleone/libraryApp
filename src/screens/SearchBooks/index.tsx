@@ -40,8 +40,11 @@ const SearchBooks: FC<ScreenProps<'SearchBooksScreen'>> = () => {
     }
   };
 
-  const handleOnRefresh = () =>
-    dispatch(searchBook({q: searchResultBooks.q, page: currentPage, limit}));
+  const handleOnRefresh = () => {
+    dispatch(reset({}));
+    dispatch(searchBook({q: searchResultBooks.q, page: 1, limit}));
+    dispatch(changePage(1));
+  };
 
   const handleOnPressRow = (book: Book) => navigate('DetailBookScreen', {book});
 
