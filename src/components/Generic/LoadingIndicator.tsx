@@ -1,13 +1,8 @@
 import React, {FunctionComponent} from 'react';
-import {
-  ActivityIndicator,
-  ActivityIndicatorProps,
-  StyleSheet,
-  Text,
-} from 'react-native';
+import {ActivityIndicator, StyleSheet, Text} from 'react-native';
 import {MainContainer} from './MainContainer';
 
-interface LoadingIndicatorProps extends ActivityIndicatorProps {
+interface LoadingIndicatorProps {
   messageLoading?: string;
 }
 

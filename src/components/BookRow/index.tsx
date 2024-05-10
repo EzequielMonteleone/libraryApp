@@ -9,10 +9,7 @@ interface BookRowProps {
 }
 
 const BookRow: FC<BookRowProps> = ({book, onPress}) => {
-  const handleOnPress = useCallback(() => {
-    onPress(book);
-  }, [book, onPress]);
-
+  const handleOnPress = useCallback(() => onPress(book), [book, onPress]);
   return (
     <Pressable
       testID="BookRow_btn"
